@@ -11,8 +11,17 @@ config_version=5
 [application]
 
 config/name="meteo"
+run/main_scene="res://game.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+flowerwall_crt="*uid://cc1fomjf362h5"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/flowerwall_crt/plugin.cfg")
 
 [physics]
 
