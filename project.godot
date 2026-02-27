@@ -11,20 +11,13 @@ config_version=5
 [application]
 
 config/name="meteo"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://game.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 flowerwall_crt="*uid://cc1fomjf362h5"
-
-[display]
-
-window/size/viewport_width=720
-window/size/viewport_height=600
-window/size/borderless=true
-window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
