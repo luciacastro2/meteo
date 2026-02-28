@@ -308,6 +308,7 @@ func print_board(matrix) -> void:
 # ******************************************************************
 
 func _on_next_day_button_pressed() -> void:
+	$UI/ClickSound.play()
 	next_day()
 
 
