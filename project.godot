@@ -22,7 +22,7 @@ flowerwall_crt="*uid://cc1fomjf362h5"
 [display]
 
 window/size/viewport_width=720
-window/size/viewport_height=600
+window/size/viewport_height=580
 window/stretch/mode="canvas_items"
 
 [editor_plugins]
