@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bt3a6ltl4mlf6"]
+
+[ext_resource type="Texture2D" uid="uid://jsek70sif7de" path="res://assets/ui/grid.png" id="1_wnyem"]
+[ext_resource type="Texture2D" uid="uid://dee57y7yl256e" path="res://assets/WhatsApp Image 2026-02-28 at 4.49.46 AM.jpeg" id="2_wnyem"]
+
+[node name="CRT" type="Node2D" unique_id=1889620572]
+
+[node name="Grid" type="Sprite2D" parent="." unique_id=1995242781]
+z_index = 1
+position = Vector2(320, 240)
+texture = ExtResource("1_wnyem")
+
+[node name="Map" type="Sprite2D" parent="." unique_id=1894794470]
+position = Vector2(322.25, 247.99997)
+scale = Vector2(1.4083333, 1.4083334)
+texture = ExtResource("2_wnyem")

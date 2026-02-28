@@ -12,7 +12,7 @@ font_size = 37
 font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
-size = Vector2(643, 492)
+size = Vector2(642, 481)
 
 [node name="Main" type="Node2D" unique_id=1059845103]
 script = ExtResource("1_0wfyh")
@@ -59,7 +59,7 @@ offset_left = -1.0
 offset_top = 1.0
 offset_right = 73.0
 offset_bottom = 53.0
-text = "1"
+text = "13"
 label_settings = SubResource("LabelSettings_sugp2")
 horizontal_alignment = 1
 
@@ -67,8 +67,8 @@ horizontal_alignment = 1
 
 [node name="TrayPredictions2" type="Sprite2D" parent="TVFrame" unique_id=719542626]
 z_index = 2
-position = Vector2(368, 11.749992)
-scale = Vector2(1.4104166, 0.29374984)
+position = Vector2(368, 13.749992)
+scale = Vector2(1.4104166, 0.24374981)
 texture = ExtResource("3_jyhfs")
 
 [node name="CRTViewportContainer" parent="." unique_id=502933167 instance=ExtResource("2_0wfyh")]
@@ -81,7 +81,7 @@ metadata/_edit_lock_ = true
 [node name="MouseClick" type="Area2D" parent="." unique_id=1422417208]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MouseClick" unique_id=663959461]
-position = Vector2(357.5, 269)
+position = Vector2(358, 274)
 shape = SubResource("RectangleShape2D_tbgi4")
 
 [connection signal="pressed" from="UI/Button" to="." method="_on_button_pressed"]

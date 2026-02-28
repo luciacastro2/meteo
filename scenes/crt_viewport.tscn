@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://c5snxwm8ev56u"]
 
-[ext_resource type="Texture2D" uid="uid://jsek70sif7de" path="res://assets/ui/grid.png" id="1_hvwc6"]
-[ext_resource type="Texture2D" uid="uid://cbmdbhqku02s" path="res://icon.svg" id="2_mdfr1"]
+[ext_resource type="PackedScene" uid="uid://bt3a6ltl4mlf6" path="res://scenes/crt.tscn" id="1_3di0q"]
 
 [node name="CRTViewport" type="SubViewport" unique_id=1646560050]
 disable_3d = true
@@ -9,14 +8,5 @@ handle_input_locally = false
 size = Vector2i(640, 480)
 render_target_update_mode = 4
 
-[node name="CRT" type="Node2D" parent="." unique_id=1453227738]
+[node name="CRT" parent="." unique_id=1889620572 instance=ExtResource("1_3di0q")]
 position = Vector2(0, 8)
-
-[node name="Grid" type="Sprite2D" parent="CRT" unique_id=1944604280]
-z_index = 1
-position = Vector2(320, 248)
-texture = ExtResource("1_hvwc6")
-
-[node name="Icon" type="Sprite2D" parent="CRT" unique_id=1246559144]
-position = Vector2(384, 168)
-texture = ExtResource("2_mdfr1")

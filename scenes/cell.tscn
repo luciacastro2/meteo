@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://ce6lkaaj2uegh"]
+
+[ext_resource type="Script" uid="uid://b4l6yh5ov8jfp" path="res://scenes/cell.gd" id="1_upbjj"]
+
+[node name="Cell" type="Node2D" unique_id=989584442]
+script = ExtResource("1_upbjj")
+
+[node name="Image" type="Sprite2D" parent="." unique_id=1756524114]
