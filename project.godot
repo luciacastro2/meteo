@@ -23,7 +23,7 @@ Global="*uid://ce1idi2lr8u1h"
 [display]
 
 window/size/viewport_width=720
-window/size/viewport_height=580
+window/size/viewport_height=660
 window/stretch/mode="canvas_items"
 
 [editor_plugins]

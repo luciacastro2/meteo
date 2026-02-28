@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b0r7bopa0gwtr"]
+[gd_scene format=3 uid="uid://bhfop7w6vl8j1"]
 
 [ext_resource type="Texture2D" uid="uid://c4va0xwqv7ihq" path="res://assets/ui/tray_predictions.png" id="1_whsdq"]
 [ext_resource type="Texture2D" uid="uid://cgqwhqfqao7i6" path="res://assets/ui/tv_frame.png" id="2_xlpu3"]
@@ -7,9 +7,10 @@
 layer = 105
 
 [node name="TrayPredictions" type="Sprite2D" parent="." unique_id=1807707434]
+modulate = Color(0, 0, 0, 1)
 z_index = 2
-position = Vector2(360.99997, 547)
-scale = Vector2(1.4666666, 0.80000037)
+position = Vector2(360, 598.00006)
+scale = Vector2(1.5000001, 1.5)
 texture = ExtResource("1_whsdq")
 
 [node name="TvFrame" type="Sprite2D" parent="." unique_id=2025784284]

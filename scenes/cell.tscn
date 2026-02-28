@@ -6,3 +6,4 @@
 script = ExtResource("1_upbjj")
 
 [node name="Image" type="Sprite2D" parent="." unique_id=1756524114]
+position = Vector2(40, 40)

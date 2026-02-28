@@ -28,6 +28,8 @@ func update_visual() -> void:
 			sprite.texture = null
 		Global.States.SUN:
 			sprite.texture = load("res://assets/cell/state_sun.png")
+		Global.States.PARTLY_CLOUD:
+			sprite.texture = load("res://assets/cell/state_partly_cloud.png")
 		Global.States.CLOUD:
 			sprite.texture = load("res://assets/cell/state_cloud.png")
 		Global.States.RAIN:
