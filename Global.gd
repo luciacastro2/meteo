@@ -9,7 +9,7 @@ enum Screen{
 const CELL_SIZE: int = 80
 const ROWS: int = 6
 const COLS: int = 8
-const MaxDay: int = 23580
+const MaxDay: int = 28
 const MAX_PREDICTIONS := 3
 
 var Credibility = 100

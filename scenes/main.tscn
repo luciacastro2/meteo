@@ -10,10 +10,6 @@ size = Vector2(480, 80)
 
 [sub_resource type="LabelSettings" id="LabelSettings_jyhfs"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_sugp2"]
-font_size = 32
-font_color = Color(0, 0, 0, 1)
-
 [node name="Main" type="Node2D" unique_id=1059845103]
 script = ExtResource("1_tbgi4")
 
@@ -32,49 +28,6 @@ shape = SubResource("RectangleShape2D_jyhfs")
 [node name="TrayPredictions" parent="UI" unique_id=590527091 instance=ExtResource("2_tbgi4")]
 position = Vector2(40, 552)
 
-[node name="PredictionsLeft" type="Label" parent="UI" unique_id=1015210710]
-offset_left = 272.0
-offset_top = 16.0
-offset_right = 472.0
-offset_bottom = 48.0
-text = "Predicciones pendientes:"
-label_settings = SubResource("LabelSettings_jyhfs")
-vertical_alignment = 1
-metadata/_edit_group_ = true
-
-[node name="PredictionsLeftText" type="Label" parent="UI/PredictionsLeft" unique_id=1922382272]
-layout_mode = 0
-offset_left = 192.0
-offset_right = 216.0
-offset_bottom = 32.0
-text = "3"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="NextDayButton" type="Button" parent="UI" unique_id=549594260]
-offset_left = 608.0
-offset_top = 552.0
-offset_right = 681.0
-offset_bottom = 632.0
-text = "NEXT"
-
-[node name="CurrentDay" type="ColorRect" parent="UI" unique_id=1016149286]
-offset_left = 533.0
-offset_top = 552.0
-offset_right = 606.0
-offset_bottom = 632.0
-mouse_filter = 2
-
-[node name="CurrentDayText" type="Label" parent="UI/CurrentDay" unique_id=70975175]
-layout_mode = 0
-offset_left = 3.0
-offset_right = 77.0
-offset_bottom = 79.0
-text = "1"
-label_settings = SubResource("LabelSettings_sugp2")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="CredibilityLabel" type="Label" parent="UI" unique_id=1554042861]
 offset_left = 39.0
 offset_top = 19.0
@@ -87,6 +40,50 @@ layout_mode = 0
 offset_left = 103.0
 offset_right = 147.0
 offset_bottom = 23.0
+
+[node name="PredictionsLeft" type="Label" parent="UI" unique_id=1015210710]
+offset_left = 264.0
+offset_top = 16.0
+offset_right = 464.0
+offset_bottom = 48.0
+text = "Predicciones activas:"
+label_settings = SubResource("LabelSettings_jyhfs")
+vertical_alignment = 1
+metadata/_edit_group_ = true
+
+[node name="PredictionsLeftText" type="Label" parent="UI/PredictionsLeft" unique_id=1922382272]
+layout_mode = 0
+offset_left = 160.0
+offset_right = 184.0
+offset_bottom = 32.0
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DaysLabel" type="Label" parent="UI" unique_id=2006351476]
+offset_left = 552.0
+offset_top = 16.0
+offset_right = 592.0
+offset_bottom = 48.0
+text = "Día:"
+label_settings = SubResource("LabelSettings_jyhfs")
+vertical_alignment = 1
+metadata/_edit_group_ = true
+
+[node name="DaysLabelText" type="Label" parent="UI/DaysLabel" unique_id=1933052557]
+layout_mode = 0
+offset_left = 40.0
+offset_right = 126.0
+offset_bottom = 32.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NextDayButton" type="Button" parent="UI" unique_id=549594260]
+offset_left = 608.0
+offset_top = 552.0
+offset_right = 681.0
+offset_bottom = 632.0
+text = "NEXT"
 
 [node name="ClickSound" type="AudioStreamPlayer" parent="UI" unique_id=54037570]
 

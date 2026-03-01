@@ -1,7 +1,7 @@
 extends Node2D
 
 var rng = RandomNumberGenerator.new()
-var Main: Node2D
+var Main
 
 const OFFSET_X := 40
 const OFFSET_Y := 60
@@ -9,7 +9,7 @@ const OFFSET_Y := 60
 var weights = {
 	Global.States.CLEAR: 60,       
 	Global.States.SUN: 10,
-	Global.States.PARTLY_CLOUD:10
+	Global.States.PARTLY_CLOUD:10,
 	Global.States.CLOUD: 10,      
 	Global.States.RAIN: 5,       
 	Global.States.STORM: 5,       
@@ -267,7 +267,9 @@ func end_game() -> void:
 # ******************************************************************
 
 func show_day() -> void:
-	Main.get_node("UI/CurrentDay/CurrentDayText").text = str(Global.Day)
+	var day = ""
+	if Global.Day<10: day = "0"
+	Main.get_node("UI/DaysLabel/DaysLabelText").text = day + str(Global.Day) +"/02/1987"
 
 
 func show_credibility() -> void:
