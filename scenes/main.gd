@@ -152,54 +152,54 @@ func get_vecinos(row: int, col: int) -> int:
 				vecinos += 1
 	return vecinos
 
-func decide_weather_state(row: int, col: int) -> int:
-	var sun_count = 0
-	var partly_count = 0
-	var cloud_count = 0
-	var rain_count = 0
-	var storm_count = 0
-	
+func decide_weather_state_scaled(row: int, col: int) -> int:
+	var current_state = Global.board[row][col].state
+	var level = int(current_state)
+
+	# Recoger niveles de vecinos
+	var neighbor_levels = []
 	for i in range(-1, 2):
 		for j in range(-1, 2):
 			if i == 0 and j == 0:
 				continue
-				
 			var r = (row + i + Global.ROWS) % Global.ROWS
 			var c = (col + j + Global.COLS) % Global.COLS
-			var neighbor_state = Global.board[r][c].state
-			
-			match neighbor_state:
-				Global.States.SUN:
-					sun_count += 1
-				Global.States.PARTLY_CLOUD:
-					partly_count += 1
-				Global.States.CLOUD:
-					cloud_count += 1
-				Global.States.RAIN:
-					rain_count += 1
-				Global.States.STORM:
-					storm_count += 1
-	
-	if storm_count >= 2:
-		return Global.States.STORM
-	
-	if rain_count >= 2:
-		return Global.States.RAIN
-	
-	if cloud_count >= 2:
-		if randf() < 0.6:
-			return Global.States.CLOUD
-		else:
-			return Global.States.PARTLY_CLOUD
-	
-	if sun_count >= 1 and cloud_count >= 1:
-		return Global.States.PARTLY_CLOUD
-	
-	if sun_count >= 2:
-		return Global.States.SUN
-	
-	return Global.States.PARTLY_CLOUD
-	
+			neighbor_levels.append(int(Global.board[r][c].state))
+
+	# Media de vecinos
+	var avg_neighbor = 0.0
+	if neighbor_levels.size() > 0:
+		var total = 0
+		for n_level in neighbor_levels:
+			total += n_level
+		avg_neighbor = float(total) / neighbor_levels.size()
+
+	# Diferencia entre vecinos y mi nivel
+	var diff = avg_neighbor - float(level)
+
+	# Cambiar solo si la diferencia es significativa
+	var change = 0
+	if diff > 0.6:
+		change = 1
+	elif diff < -0.6:
+		change = -1
+
+	# Aleatoriedad tipo viento, más suave
+	var wind = randf_range(-0.2, 0.2)
+	var random_factor = randf_range(-0.2, 0.2)
+
+	var final_change = float(change) + wind + random_factor
+
+	# Ajuste de nivel
+	if final_change > 0.5:
+		level = min(level + 1, int(Global.States.STORM))
+	elif final_change < -0.5:
+		# Evitar que baje a CLEAR si ya no estaba CLEAR
+		if current_state != Global.States.CLEAR:
+			level = max(level - 1, int(Global.States.CLEAR))
+	# Si está entre -0.5 y 0.5 → mantiene el mismo estado
+
+	return level
 	
 func simulate_board() -> void:
 	var next_states = []
@@ -216,12 +216,12 @@ func simulate_board() -> void:
 
 			if current != Global.States.CLEAR:
 				if vecinos == 2 or vecinos == 3:
-					next_state = decide_weather_state(i, j)
+					next_state = decide_weather_state_scaled(i, j)
 				else:
 					next_state = Global.States.CLEAR
 			else:
 				if vecinos == 3:
-					next_state = decide_weather_state(i, j)
+					next_state = decide_weather_state_scaled(i, j)
 				else:
 					next_state = Global.States.CLEAR
 

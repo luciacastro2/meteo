@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dfsmr0ylukdtt"]
+
+[ext_resource type="Texture2D" uid="uid://dee57y7yl256e" path="res://assets/WhatsApp Image 2026-02-28 at 4.49.46 AM.jpeg" id="1_fgkus"]
+[ext_resource type="Script" uid="uid://bbh0cnfkols10" path="res://scenes/title_screen.gd" id="1_sa3yf"]
+
+[node name="TitleScreen" type="Node2D" unique_id=747914854]
+script = ExtResource("1_sa3yf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1056510810]
+position = Vector2(354, 328)
+scale = Vector2(1.1966667, 1.3791667)
+texture = ExtResource("1_fgkus")
+
+[node name="Button" type="Button" parent="." unique_id=1574986997]
+offset_left = 272.0
+offset_top = 219.0
+offset_right = 472.0
+offset_bottom = 359.0
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
