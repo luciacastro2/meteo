@@ -1,6 +1,7 @@
 extends Node2D
 
 var rng = RandomNumberGenerator.new()
+var Main = get_parent()
 
 const OFFSET_X := 40
 const OFFSET_Y := 60
@@ -114,6 +115,15 @@ func create_random_board() -> void:
 			new_cell.setup(chosen_state, Vector2i(i, j))
 			row.append(new_cell)
 		Global.board.append(row)
+
+
+func print_board(matrix) -> void:
+	for i in range(Global.ROWS):
+		var row = ""
+		for j in range(Global.COLS):
+			row += str(matrix[i][j].state) + " "
+		print(row)
+	print("\n")
 
 # ******************************************************************
 # PATTERNS
@@ -248,51 +258,40 @@ func end_game() -> void:
 # ******************************************************************
 
 func show_day() -> void:
-	$UI/CurrentDay/CurrentDayText.text = str(Global.Day)
+	Main.get_node("$UI/CurrentDay/CurrentDayText").text = str(Global.Day)
+
+
+func show_credibility() -> void:
+	Main.get_node("$UI/CredibilityLabel/CredibilityLabelText").text = str(Global.Credibility)
+
+
+func show_predictions_left() -> void:
+	var remaining = Global.MAX_PREDICTIONS - predictions.size()
+	Main.get_node("$UI/PredictionsLeft/PredictionsLeftText").text = str(remaining)
 
 
 func update_credibility() -> void:
 	#funcion para calcular credibilidad AQUI
 	show_credibility()
 
-func show_credibility() -> void:
-	$UI/CredibilityLabel/CredibilityLabelText.text = str(Global.Credibility)
 
 func update_predictions_left() -> void:
 	show_predictions_left()
 
-func show_predictions_left() -> void:
-	var remaining = Global.MAX_PREDICTIONS - predictions.size()
-	$UI/PredictionsLeft/PredictionsLeftText.text = str(remaining)
-	
-		
+
 func next_day() -> void:
 	Global.Day += 1
 
-	if Global.Day > Global.MaxDay: get_tree().quit()
+	if Global.Day > Global.MaxDay: get_tree().quit() #CHANGE: cambiar escena a ending_screen
 	else: show_day()
 	
 	simulate_board()
 	check_predictions()
 	selected_prediction = null
 	predictions.clear()
-	#update_predictions_left()
+	update_predictions_left()
 	
 	print_board(Global.board)
-
-
-# ******************************************************************
-# DEBUG
-# ******************************************************************
-
-func print_board(matrix) -> void:
-	for i in range(Global.ROWS):
-		var row = ""
-		for j in range(Global.COLS):
-			row += str(matrix[i][j].state) + " "
-		print(row)
-	print("\n")
-
 
 # ******************************************************************
 # EVENTS
