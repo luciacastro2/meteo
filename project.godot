@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="meteo"
+config/name="Météo"
+config/version="0.1."
 run/main_scene="uid://cucle5yq1fhm3"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"

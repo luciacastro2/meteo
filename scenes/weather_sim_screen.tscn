@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://jsek70sif7de" path="res://assets/ui/grid.png" id="1_5ri6f"]
 [ext_resource type="Script" uid="uid://djuytpcd1emvg" path="res://scenes/weather_simulator.gd" id="1_ud5t7"]
 [ext_resource type="Texture2D" uid="uid://dee57y7yl256e" path="res://assets/WhatsApp Image 2026-02-28 at 4.49.46 AM.jpeg" id="2_ud5t7"]
+[ext_resource type="Texture2D" uid="uid://cqdu87lg3meg1" path="res://assets/WPC_CONUS_forecast_on_January_23,_2024.png" id="4_q84oc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ud5t7"]
 size = Vector2(639.5, 477)
@@ -16,7 +17,7 @@ position = Vector2(320, 240)
 texture = ExtResource("1_5ri6f")
 
 [node name="Map" type="Sprite2D" parent="." unique_id=1894794470]
-self_modulate = Color(1, 1, 1, 0.6784314)
+modulate = Color(1, 1, 1, 0.7019608)
 position = Vector2(322.25, 247.99997)
 scale = Vector2(1.4083333, 1.4083334)
 texture = ExtResource("2_ud5t7")
@@ -33,5 +34,11 @@ offset_right = 720.0
 offset_bottom = 664.0
 mouse_filter = 2
 color = Color(0.023529412, 0.011764706, 0.42352942, 1)
+
+[node name="WpcConusForecastOnJanuary23,2024" type="Sprite2D" parent="." unique_id=1524183373]
+visible = false
+position = Vector2(326.85715, 247.5)
+scale = Vector2(1.0714285, 1.0714285)
+texture = ExtResource("4_q84oc")
 
 [connection signal="input_event" from="ScreenMouseClick" to="." method="_on_screen_mouse_click_input_event"]

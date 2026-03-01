@@ -43,6 +43,6 @@ position = Vector2(360, 40)
 texture = ExtResource("6_cocnm")
 
 [node name="Eraser" type="Sprite2D" parent="." unique_id=1606163882]
-modulate = Color(1, 1, 1, 0.6627451)
+modulate = Color(1, 1, 1, 0.5529412)
 position = Vector2(440, 40)
 texture = ExtResource("7_l717m")

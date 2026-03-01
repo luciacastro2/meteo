@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://gstq8nalvno5"]
+
+[ext_resource type="Texture2D" uid="uid://dnwyldppp0ucd" path="res://assets/cell/state_sun.png" id="1_4lrp6"]
+[ext_resource type="Script" uid="uid://bm7qi4dwc7qby" path="res://scenes/prediction.gd" id="1_f0qig"]
+
+[node name="Prediction" type="Node2D" unique_id=740205738]
+script = ExtResource("1_f0qig")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=820626121]
+offset_right = 80.0
+offset_bottom = 80.0
+color = Color(0, 0, 0, 1)
+
+[node name="Image" type="Sprite2D" parent="." unique_id=309565193]
+position = Vector2(40, 40)
+texture = ExtResource("1_4lrp6")

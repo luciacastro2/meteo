@@ -80,11 +80,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="NextDayButton" type="Button" parent="UI" unique_id=549594260]
-offset_left = 608.0
+offset_left = 600.0
 offset_top = 552.0
 offset_right = 681.0
 offset_bottom = 632.0
-text = "NEXT"
+text = "NEW DAY"
 
 [node name="ClickSound" type="AudioStreamPlayer" parent="UI" unique_id=54037570]
 

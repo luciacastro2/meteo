@@ -8,11 +8,11 @@ const OFFSET_Y := 60
 
 var weights = {
 	Global.States.CLEAR: 50,       
-	Global.States.SUN: 15,
+	Global.States.SUN: 10,
 	Global.States.PARTLY_CLOUD:10,
 	Global.States.CLOUD: 10,      
 	Global.States.RAIN: 10,       
-	Global.States.STORM: 5,       
+	Global.States.STORM: 10,       
 }
 
 # ******************************************************************
@@ -193,8 +193,9 @@ func get_neighbours(row: int, col: int) -> int:
 func decide_weather_state_majority(row: int, col: int) -> int:
 	var current_state = Global.board[row][col].state
 	
-	# Contar los estados de los vecinos
-	var neighbor_counts = {}
+	var total := 0
+	var count := 0
+	
 	for i in range(-1, 2):
 		for j in range(-1, 2):
 			if i == 0 and j == 0:
@@ -202,35 +203,31 @@ func decide_weather_state_majority(row: int, col: int) -> int:
 			
 			var r = row + i
 			var c = col + j
-
-		
+			
 			if r < 0 or r >= Global.ROWS:
 				continue
 			if c < 0 or c >= Global.COLS:
 				continue
 
-			var neighbor_state = Global.board[r][c].state
-			if neighbor_counts.has(neighbor_state):
-				neighbor_counts[neighbor_state] += 1
-			else:
-				neighbor_counts[neighbor_state] = 1
+			var neighbour_state = Global.board[r][c].state
+			
+			if neighbour_state == Global.States.CLEAR:
+				continue
 
+			total += neighbour_state
+			count += 1
 	
-	var majority_state = current_state
-	var max_count = 0
-	for state in neighbor_counts.keys():
-		if neighbor_counts[state] > max_count:
-			max_count = neighbor_counts[state]
-			majority_state = state
-
-	var next_state = current_state
-	if majority_state > current_state:
-		next_state = min(current_state + 1, int(Global.States.STORM))
-	elif majority_state < current_state:
-		next_state = max(current_state - 1, int(Global.States.CLEAR))
+	if count == 0:
+		return current_state
 	
-	return next_state
-
+	var mean = float(total) / float(count)
+	if mean >= current_state and current_state < Global.States.STORM:
+		return current_state + 1
+	
+	if mean < current_state and current_state > Global.States.SUN:
+		return current_state - 1
+	
+	return current_state
 
 
 func simulate_board() -> void:
