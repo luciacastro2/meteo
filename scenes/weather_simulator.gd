@@ -311,7 +311,6 @@ func next_day() -> void:
 	
 	check_predictions()
 	selected_prediction = null
-	predictions.clear()
 	update_predictions_left()
 	
 	print_board(Global.board)
@@ -326,7 +325,6 @@ func connect_signals():
 # ******************************************************************
 
 func _on_day_changed() -> void:
-	Main.get_node("UI/ClickSound").play()
 	next_day()
 
 
