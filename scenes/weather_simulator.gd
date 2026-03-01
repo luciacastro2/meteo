@@ -55,6 +55,8 @@ func check_predictions() -> void:
 # ******************************************************************
 
 func _ready() -> void:
+	$"../UI/StaticSound".stream.loop = true
+	$"../UI/StaticSound".play()
 	#show_day()
 	#show_credibility()
 	#show_predictions_left()
@@ -298,7 +300,7 @@ func next_day() -> void:
 # ******************************************************************
 
 func _on_next_day_button_pressed() -> void:
-	$UI/ClickSound.play()
+	$"../UI/ClickSound".play()
 	next_day()
 
 
