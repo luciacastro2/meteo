@@ -7,11 +7,11 @@ const OFFSET_X := 40
 const OFFSET_Y := 60
 
 var weights = {
-	Global.States.CLEAR: 60,       
-	Global.States.SUN: 10,
-	Global.States.PARTLY_CLOUD:10
+	Global.States.CLEAR: 50,       
+	Global.States.SUN: 15,
+	Global.States.PARTLY_CLOUD:10,
 	Global.States.CLOUD: 10,      
-	Global.States.RAIN: 5,       
+	Global.States.RAIN: 10,       
 	Global.States.STORM: 5,       
 }
 
@@ -84,7 +84,8 @@ func _ready() -> void:
 	show_day()
 	show_credibility()
 	show_predictions_left()
-
+	#create_board()
+	#_glider()
 	create_random_board()
 	print_board(Global.board)
 
@@ -177,8 +178,14 @@ func get_neighbours(row: int, col: int) -> int:
 		for j in range(-1, 2):
 			if i == 0 and j == 0:
 				continue
-			var r = (row + i + Global.ROWS) % Global.ROWS
-			var c = (col + j + Global.COLS) % Global.COLS
+			
+			var r = row + i
+			var c = col + j
+			
+			if r < 0 or r >= Global.ROWS:
+				continue
+			if c < 0 or c >= Global.COLS:
+				continue
 			if Global.board[r][c].state != Global.States.CLEAR:
 				neighbours += 1
 	return neighbours
@@ -192,15 +199,23 @@ func decide_weather_state_majority(row: int, col: int) -> int:
 		for j in range(-1, 2):
 			if i == 0 and j == 0:
 				continue
-			var r = (row + i + Global.ROWS) % Global.ROWS
-			var c = (col + j + Global.COLS) % Global.COLS
+			
+			var r = row + i
+			var c = col + j
+
+		
+			if r < 0 or r >= Global.ROWS:
+				continue
+			if c < 0 or c >= Global.COLS:
+				continue
+
 			var neighbor_state = Global.board[r][c].state
 			if neighbor_counts.has(neighbor_state):
 				neighbor_counts[neighbor_state] += 1
 			else:
 				neighbor_counts[neighbor_state] = 1
 
-	# Determinar el estado más frecuente
+	
 	var majority_state = current_state
 	var max_count = 0
 	for state in neighbor_counts.keys():
@@ -208,14 +223,12 @@ func decide_weather_state_majority(row: int, col: int) -> int:
 			max_count = neighbor_counts[state]
 			majority_state = state
 
-	# Ajustar según la mayoría
 	var next_state = current_state
 	if majority_state > current_state:
 		next_state = min(current_state + 1, int(Global.States.STORM))
 	elif majority_state < current_state:
 		next_state = max(current_state - 1, int(Global.States.CLEAR))
-	# Si son iguales → mantiene el estado actual
-
+	
 	return next_state
 
 
@@ -231,16 +244,16 @@ func simulate_board() -> void:
 
 			var neighbours = get_neighbours(i, j)
 			var current = Global.board[i][j].state
-			var next_state: int
+			var next_state= current
 
 			if current != Global.States.CLEAR:
 				if neighbours == 2 or neighbours == 3:
-					next_state = decide_weather_state_majority(i, j)
+					next_state = decide_weather_state_majority(i,j) 
 				else:
 					next_state = Global.States.CLEAR
 			else:
 				if neighbours == 3:
-					next_state = decide_weather_state_majority(i, j)
+					next_state = decide_weather_state_majority(i,j) 
 				else:
 					next_state = Global.States.CLEAR
 
