@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://c7ol53vpad3dn" path="res://scenes/weather_sim_screen.tscn" id="1_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://bhfop7w6vl8j1" path="res://scenes/tv_frame.tscn" id="1_sugp2"]
+[ext_resource type="Script" uid="uid://dhcsao4ap6w2u" path="res://scenes/main.gd" id="1_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://c4va0xwqv7ihq" path="res://assets/ui/tray_predictions.png" id="3_jyhfs"]
-[ext_resource type="AudioStream" path="res://sounds/219012__cusconauta__blop.wav" id="3_tbgi4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
 size = Vector2(480, 80)
@@ -15,6 +15,7 @@ font_size = 32
 font_color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Node2D" unique_id=1059845103]
+script = ExtResource("1_tbgi4")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=92294954]
 layer = 106
@@ -91,7 +92,6 @@ offset_right = 147.0
 offset_bottom = 23.0
 
 [node name="ClickSound" type="AudioStreamPlayer" parent="UI" unique_id=54037570]
-stream = ExtResource("3_tbgi4")
 
 [node name="TVFrame" parent="." unique_id=1829308206 instance=ExtResource("1_sugp2")]
 

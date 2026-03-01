@@ -1,7 +1,7 @@
 extends Node2D
 
 var rng = RandomNumberGenerator.new()
-var Main = get_parent()
+var Main: Node2D
 
 const OFFSET_X := 40
 const OFFSET_Y := 60
@@ -55,13 +55,17 @@ func check_predictions() -> void:
 # ******************************************************************
 
 func _ready() -> void:
-	#show_day()
-	#show_credibility()
-	#show_predictions_left()
-	#create_board()
-	#_glider()
+	Main = get_parent()
+	
+	connect_signals()
+	
+	show_day()
+	show_credibility()
+	show_predictions_left()
+
 	create_random_board()
 	print_board(Global.board)
+
 
 # ******************************************************************
 # BOARD CREATION
@@ -240,9 +244,6 @@ func simulate_board() -> void:
 		for j in range(Global.COLS):
 			Global.board[i][j].set_state(next_states[i][j])
 
-# ******************************************************************
-# GLOBAL FUNCTIONS
-# ******************************************************************
 
 func end_game() -> void:
 	if Global.Credibility <= 70:
@@ -258,16 +259,16 @@ func end_game() -> void:
 # ******************************************************************
 
 func show_day() -> void:
-	Main.get_node("$UI/CurrentDay/CurrentDayText").text = str(Global.Day)
+	Main.get_node("UI/CurrentDay/CurrentDayText").text = str(Global.Day)
 
 
 func show_credibility() -> void:
-	Main.get_node("$UI/CredibilityLabel/CredibilityLabelText").text = str(Global.Credibility)
+	Main.get_node("UI/CredibilityLabel/CredibilityLabelText").text = str(Global.Credibility)
 
 
 func show_predictions_left() -> void:
 	var remaining = Global.MAX_PREDICTIONS - predictions.size()
-	Main.get_node("$UI/PredictionsLeft/PredictionsLeftText").text = str(remaining)
+	Main.get_node("UI/PredictionsLeft/PredictionsLeftText").text = str(remaining)
 
 
 func update_credibility() -> void:
@@ -286,6 +287,7 @@ func next_day() -> void:
 	else: show_day()
 	
 	simulate_board()
+	
 	check_predictions()
 	selected_prediction = null
 	predictions.clear()
@@ -293,18 +295,22 @@ func next_day() -> void:
 	
 	print_board(Global.board)
 
+
+func connect_signals():
+	Main.day_changed.connect(_on_day_changed)
+	Main.prediction_tray_clicked.connect(_on_prediction_tray_clicked)
+
 # ******************************************************************
 # EVENTS
 # ******************************************************************
 
-func _on_next_day_button_pressed() -> void:
-	$UI/ClickSound.play()
+func _on_day_changed() -> void:
+	Main.get_node("UI/ClickSound").play()
 	next_day()
 
 
 func _on_screen_mouse_click_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-
 		var mouse_pos = event.position
 
 		var col = int((mouse_pos.x - OFFSET_X) / Global.CELL_SIZE)
@@ -326,15 +332,15 @@ func _on_screen_mouse_click_input_event(viewport: Node, event: InputEvent, shape
 	
 			predictions.append(new_prediction)
 			selected_prediction = new_prediction
-			#update_predictions_left()
+			update_predictions_left()
 			var numero_prediccion = predictions.size()
 			print("Predicción #", numero_prediccion, " en celda ", new_prediction.position)
 
 
-func _on_predictions_mouse_click_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+func _on_prediction_tray_clicked(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		var mouse_pos = event.position
-		var offset = $UI/TrayPredictions.position
+		var offset = Main.get_node("UI/TrayPredictions").position
 		var local_pos = mouse_pos - offset
 		
 		var prediction_state = int(local_pos.x / Global.CELL_SIZE) + 1
@@ -348,10 +354,10 @@ func _on_predictions_mouse_click_input_event(viewport: Node, event: InputEvent, 
 			predictions.erase(selected_prediction)
 			print("Predicción borrada")
 			selected_prediction = null
-			#update_predictions_left()
+			update_predictions_left()
 			return
 	
 		selected_prediction.state = prediction_state
 		print("Estado asignado:", prediction_state)
 		selected_prediction = null
-		#update_predictions_left()
+		update_predictions_left()
