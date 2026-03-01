@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bhfop7w6vl8j1" path="res://scenes/tv_frame.tscn" id="1_sugp2"]
 [ext_resource type="Script" uid="uid://dhcsao4ap6w2u" path="res://scenes/main.gd" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://cbayklhy1rn2q" path="res://scenes/tray_predictions.tscn" id="2_tbgi4"]
+[ext_resource type="AudioStream" uid="uid://cwv12ubp8onjq" path="res://sounds/478760__f-r-a-g-i-l-e__sixties-tv-static.wav" id="5_tbgi4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
 size = Vector2(480, 80)
@@ -92,6 +93,9 @@ text = "NEXT"
 [node name="WeatherSimScreen" parent="." unique_id=1889620572 instance=ExtResource("1_jyhfs")]
 position = Vector2(39, 60)
 metadata/_edit_lock_ = true
+
+[node name="StaticSound" type="AudioStreamPlayer" parent="." unique_id=229755770]
+stream = ExtResource("5_tbgi4")
 
 [connection signal="input_event" from="UI/PredictionsMouseClick" to="." method="_on_predictions_mouse_click_input_event"]
 [connection signal="pressed" from="UI/NextDayButton" to="." method="_on_next_day_button_pressed"]
