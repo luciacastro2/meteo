@@ -52,6 +52,7 @@ func check_predictions() -> void:
 # ******************************************************************
 
 func _ready() -> void:
+	
 	show_day()
 	show_credibility()
 	show_predictions_left()
