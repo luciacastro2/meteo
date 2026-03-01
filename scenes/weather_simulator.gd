@@ -7,12 +7,11 @@ const OFFSET_X := 40
 const OFFSET_Y := 60
 
 var weights = {
-	Global.States.CLEAR: 60,        
-	Global.States.SUN: 15,
-	Global.States.PARTLY_CLOUD: 10, 
-	Global.States.CLOUD: 8,
-	Global.States.RAIN: 5,
-	Global.States.STORM: 2
+	Global.States.CLEAR: 70,       
+	Global.States.SUN: 20,
+	Global.States.CLOUD: 15,      
+	Global.States.RAIN: 10,       
+	Global.States.STORM: 5,       
 }
 
 # ******************************************************************
@@ -36,20 +35,42 @@ var predictions: Array[Prediction] = []
 var selected_prediction: Prediction = null
 
 
-func check_predictions() -> void:
+func calculate_credibility() -> void:
 	for p in predictions.duplicate(): 
-		if p.turn == Global.Day - 1: 
-			var real_state = Global.board[p.position.x][p.position.y].state
-			if real_state == p.state:
-				print("✔ Acierto en", p.position)
-				Global.Credibility += 5
-			else:
-				print("✘ Fallo en", p.position)
-				Global.Credibility -= 5
+		var real_state = Global.board[p.position.x][p.position.y].state
+		# Caso 1: todavía está vacía → espera
+		if real_state == Global.States.CLEAR:
+			print("⏳ Predicción en espera en", p.position)
+			continue  # no hacemos nada todavía
+		
+		# Caso 2: acierto
+		elif real_state == p.state:
+			# puntos base
+			var points = 5
+			# bonus por esperar varios turnos si la casilla estaba vacía al inicio
+			var turn_delay = Global.Day - p.turn
+			points += turn_delay
+			Global.Credibility += points
+			print("✔ Acierto en", p.position, "+", points, "puntos")
+			# predicción ya se resolvió
 			predictions.erase(p)
-	update_credibility() 
+		
+		# Caso 3: fallo
+		else:
+			var points = -5
+			Global.Credibility += points
+			print("✘ Fallo en", p.position, points, "puntos")
+			# predicción ya se resolvió
+			predictions.erase(p)
+	
+	# Actualizamos UI
+	update_credibility()
+	
+func check_predictions() -> void:
+	calculate_credibility()
 	end_game()
-
+	
+	
 # ******************************************************************
 # GLOBAL FUNCTIONS
 # ******************************************************************
@@ -161,55 +182,41 @@ func get_neighbours(row: int, col: int) -> int:
 				neighbours += 1
 	return neighbours
 
-
-func decide_weather_state_scaled(row: int, col: int) -> int:
+func decide_weather_state_majority(row: int, col: int) -> int:
 	var current_state = Global.board[row][col].state
-	var level = int(current_state)
-
-	# Recoger niveles de vecinos
-	var neighbor_levels = []
+	
+	# Contar los estados de los vecinos
+	var neighbor_counts = {}
 	for i in range(-1, 2):
 		for j in range(-1, 2):
 			if i == 0 and j == 0:
 				continue
 			var r = (row + i + Global.ROWS) % Global.ROWS
 			var c = (col + j + Global.COLS) % Global.COLS
-			neighbor_levels.append(int(Global.board[r][c].state))
+			var neighbor_state = Global.board[r][c].state
+			if neighbor_counts.has(neighbor_state):
+				neighbor_counts[neighbor_state] += 1
+			else:
+				neighbor_counts[neighbor_state] = 1
 
-	# Media de vecinos
-	var avg_neighbor = 0.0
-	if neighbor_levels.size() > 0:
-		var total = 0
-		for n_level in neighbor_levels:
-			total += n_level
-		avg_neighbor = float(total) / neighbor_levels.size()
+	# Determinar el estado más frecuente
+	var majority_state = current_state
+	var max_count = 0
+	for state in neighbor_counts.keys():
+		if neighbor_counts[state] > max_count:
+			max_count = neighbor_counts[state]
+			majority_state = state
 
-	# Diferencia entre vecinos y mi nivel
-	var diff = avg_neighbor - float(level)
+	# Ajustar según la mayoría
+	var next_state = current_state
+	if majority_state > current_state:
+		next_state = min(current_state + 1, int(Global.States.STORM))
+	elif majority_state < current_state:
+		next_state = max(current_state - 1, int(Global.States.CLEAR))
+	# Si son iguales → mantiene el estado actual
 
-	# Cambiar solo si la diferencia es significativa
-	var change = 0
-	if diff > 0.6:
-		change = 1
-	elif diff < -0.6:
-		change = -1
+	return next_state
 
-	# Aleatoriedad tipo viento, más suave
-	var wind = randf_range(-0.2, 0.2)
-	var random_factor = randf_range(-0.2, 0.2)
-
-	var final_change = float(change) + wind + random_factor
-
-	# Ajuste de nivel
-	if final_change > 0.5:
-		level = min(level + 1, int(Global.States.STORM))
-	elif final_change < -0.5:
-		# Evitar que baje a CLEAR si ya no estaba CLEAR
-		if current_state != Global.States.CLEAR:
-			level = max(level - 1, int(Global.States.CLEAR))
-	# Si está entre -0.5 y 0.5 → mantiene el mismo estado
-
-	return level
 
 
 func simulate_board() -> void:
@@ -227,12 +234,12 @@ func simulate_board() -> void:
 
 			if current != Global.States.CLEAR:
 				if neighbours == 2 or neighbours == 3:
-					next_state = decide_weather_state_scaled(i, j)
+					next_state = decide_weather_state_majority(i, j)
 				else:
 					next_state = Global.States.CLEAR
 			else:
 				if neighbours == 3:
-					next_state = decide_weather_state_scaled(i, j)
+					next_state = decide_weather_state_majority(i, j)
 				else:
 					next_state = Global.States.CLEAR
 
