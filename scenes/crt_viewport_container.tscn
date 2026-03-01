@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://0hh6mgetopnk"]
 
 [ext_resource type="PackedScene" uid="uid://c5snxwm8ev56u" path="res://scenes/crt_viewport.tscn" id="1_c2g88"]
+[ext_resource type="PackedScene" uid="uid://vn7tfnbrg0hc" path="res://scenes/title.tscn" id="2_qu6ep"]
 
 [node name="CRTViewportContainer" type="SubViewportContainer" unique_id=502933167]
 offset_right = 640.0
