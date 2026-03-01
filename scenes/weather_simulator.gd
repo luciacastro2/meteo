@@ -7,10 +7,11 @@ const OFFSET_X := 40
 const OFFSET_Y := 60
 
 var weights = {
-	Global.States.CLEAR: 70,       
-	Global.States.SUN: 20,
-	Global.States.CLOUD: 15,      
-	Global.States.RAIN: 10,       
+	Global.States.CLEAR: 60,       
+	Global.States.SUN: 10,
+	Global.States.PARTLY_CLOUD:10
+	Global.States.CLOUD: 10,      
+	Global.States.RAIN: 5,       
 	Global.States.STORM: 5,       
 }
 
