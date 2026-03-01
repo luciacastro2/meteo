@@ -5,11 +5,14 @@
 [node name="CRTViewportContainer" type="SubViewportContainer" unique_id=502933167]
 offset_right = 640.0
 offset_bottom = 480.0
-mouse_filter = 2
+mouse_filter = 0
 
 [node name="CRTViewport" parent="." unique_id=1646560050 instance=ExtResource("1_c2g88")]
 
-[node name="CRT" parent="CRTViewport" index="0" unique_id=1889620572]
-position = Vector2(0, 0)
+[node name="TitleScreen" parent="CRTViewport" index="0" unique_id=923709909]
+visible = false
+
+[node name="WeatherSimScreen" parent="CRTViewport" index="1" unique_id=1889620572]
+visible = true
 
 [editable path="CRTViewport"]

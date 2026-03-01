@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://c5snxwm8ev56u"]
 
-[ext_resource type="PackedScene" uid="uid://bt3a6ltl4mlf6" path="res://scenes/crt.tscn" id="1_3di0q"]
+[ext_resource type="PackedScene" uid="uid://c7ol53vpad3dn" path="res://scenes/weather_sim_screen.tscn" id="1_3di0q"]
+[ext_resource type="PackedScene" uid="uid://dfsmr0ylukdtt" path="res://scenes/title_screen.tscn" id="2_hvwc6"]
+[ext_resource type="PackedScene" uid="uid://v86nrsldmauy" path="res://scenes/ending_screen.tscn" id="3_mdfr1"]
 
 [node name="CRTViewport" type="SubViewport" unique_id=1646560050]
 disable_3d = true
-handle_input_locally = false
 size = Vector2i(640, 480)
 render_target_update_mode = 4
 
-[node name="CRT" parent="." unique_id=1889620572 instance=ExtResource("1_3di0q")]
-position = Vector2(0, 8)
+[node name="TitleScreen" parent="." unique_id=923709909 instance=ExtResource("2_hvwc6")]
+
+[node name="WeatherSimScreen" parent="." unique_id=1889620572 instance=ExtResource("1_3di0q")]
+visible = false
+
+[node name="EndingScreen" parent="." unique_id=1735621840 instance=ExtResource("3_mdfr1")]
+visible = false

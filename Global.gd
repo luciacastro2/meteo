@@ -1,5 +1,11 @@
 extends Node
 
+enum Screen{
+	TITLE,
+	SIMULATOR,
+	ENDING
+}
+
 const CELL_SIZE: int = 80
 const ROWS: int = 6
 const COLS: int = 8

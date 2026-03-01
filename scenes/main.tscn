@@ -1,8 +1,7 @@
 [gd_scene format=3 uid="uid://cucle5yq1fhm3"]
 
-[ext_resource type="Script" uid="uid://djuytpcd1emvg" path="res://scenes/main.gd" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://c7ol53vpad3dn" path="res://scenes/weather_sim_screen.tscn" id="1_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://bhfop7w6vl8j1" path="res://scenes/tv_frame.tscn" id="1_sugp2"]
-[ext_resource type="PackedScene" uid="uid://0hh6mgetopnk" path="res://scenes/crt_viewport_container.tscn" id="2_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://c4va0xwqv7ihq" path="res://assets/ui/tray_predictions.png" id="3_jyhfs"]
 [ext_resource type="AudioStream" uid="uid://b7a8063phyr7x" path="res://sounds/219012__cusconauta__blop.wav" id="3_tbgi4"]
 
@@ -15,11 +14,7 @@ size = Vector2(480, 80)
 font_size = 32
 font_color = Color(0, 0, 0, 1)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
-size = Vector2(639.5, 477)
-
 [node name="Main" type="Node2D" unique_id=1059845103]
-script = ExtResource("1_0wfyh")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=92294954]
 layer = 106
@@ -108,20 +103,8 @@ scale = Vector2(1.416, 0.75)
 texture = ExtResource("3_jyhfs")
 metadata/_edit_lock_ = true
 
-[node name="CRTViewportContainer" parent="." unique_id=502933167 instance=ExtResource("2_0wfyh")]
-offset_left = 40.0
-offset_top = 60.0
-offset_right = 680.0
-offset_bottom = 540.0
-
-[node name="ScreenMouseClick" type="Area2D" parent="." unique_id=1422417208]
-metadata/_edit_lock_ = true
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenMouseClick" unique_id=663959461]
-position = Vector2(359.25, 298.5)
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="WeatherSimScreen" parent="." unique_id=1889620572 instance=ExtResource("1_jyhfs")]
+position = Vector2(39, 60)
 
 [connection signal="input_event" from="UI/PredictionsMouseClick" to="." method="_on_predictions_mouse_click_input_event"]
 [connection signal="pressed" from="UI/NextDayButton" to="." method="_on_next_day_button_pressed"]
-[connection signal="input_event" from="ScreenMouseClick" to="." method="_on_screen_mouse_click_input_event"]

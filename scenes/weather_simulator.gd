@@ -26,13 +26,14 @@ class Prediction:
 	func _init(p: Vector2i, t: int):
 		position = p
 		turn = t
-		state = -1 # aún no elegido
+		state = -1 #not chosen yet
 	
 	func is_complete() -> bool:
 		return state != -1
 
 var predictions: Array[Prediction] = []
 var selected_prediction: Prediction = null
+
 
 func check_predictions() -> void:
 	for p in predictions.duplicate(): 
@@ -46,20 +47,20 @@ func check_predictions() -> void:
 				Global.Credibility -= 5
 			predictions.erase(p)
 	update_credibility() 
-	end_game()		
+	end_game()
+
 # ******************************************************************
 # GLOBAL FUNCTIONS
 # ******************************************************************
 
 func _ready() -> void:
-	show_day()
-	show_credibility()
-	show_predictions_left()
+	#show_day()
+	#show_credibility()
+	#show_predictions_left()
 	#create_board()
 	#_glider()
 	create_random_board()
 	print_board(Global.board)
-
 
 # ******************************************************************
 # BOARD CREATION
@@ -67,25 +68,21 @@ func _ready() -> void:
 
 func create_board() -> void:
 	Global.board = []
-
 	var cell_scene = load("res://scenes/cell.tscn")
 
 	for i in range(Global.ROWS):
 		var row = []
 		for j in range(Global.COLS):
-			
 			var new_cell = cell_scene.instantiate()
 			add_child(new_cell)
 			
 			new_cell.position = Vector2(
-				j * Global.CELL_SIZE + OFFSET_X,
-				i * Global.CELL_SIZE + OFFSET_Y
+				j * Global.CELL_SIZE, # + OFFSET_X,
+				i * Global.CELL_SIZE #+ OFFSET_Y
 			)
 
 			new_cell.setup(Global.States.CLEAR, Vector2i(i,j))
-
 			row.append(new_cell)
-
 		Global.board.append(row)
 
 
@@ -101,8 +98,8 @@ func create_random_board() -> void:
 			add_child(new_cell)
 			
 			new_cell.position = Vector2(
-				j * Global.CELL_SIZE + OFFSET_X,
-				i * Global.CELL_SIZE + OFFSET_Y
+				j * Global.CELL_SIZE, #+ OFFSET_X,
+				i * Global.CELL_SIZE #+ OFFSET_Y
 			)
 
 			var roll = rng.randi_range(0, 100)
@@ -116,7 +113,6 @@ func create_random_board() -> void:
 					break 
 			new_cell.setup(chosen_state, Vector2i(i, j))
 			row.append(new_cell)
-			
 		Global.board.append(row)
 
 # ******************************************************************
@@ -134,13 +130,12 @@ func _glider() -> void:
 			if pattern[i][j] == 1:
 				Global.board[i][j].set_state(Global.States.SUN)
 
-
 # ******************************************************************
 # LOGIC
 # ******************************************************************
 
-func get_vecinos(row: int, col: int) -> int:
-	var vecinos = 0
+func get_neighbours(row: int, col: int) -> int:
+	var neighbours = 0
 
 	for i in range(-1, 2):
 		for j in range(-1, 2):
@@ -149,8 +144,9 @@ func get_vecinos(row: int, col: int) -> int:
 			var r = (row + i + Global.ROWS) % Global.ROWS
 			var c = (col + j + Global.COLS) % Global.COLS
 			if Global.board[r][c].state != Global.States.CLEAR:
-				vecinos += 1
-	return vecinos
+				neighbours += 1
+	return neighbours
+
 
 func decide_weather_state_scaled(row: int, col: int) -> int:
 	var current_state = Global.board[row][col].state
@@ -200,7 +196,8 @@ func decide_weather_state_scaled(row: int, col: int) -> int:
 	# Si está entre -0.5 y 0.5 → mantiene el mismo estado
 
 	return level
-	
+
+
 func simulate_board() -> void:
 	var next_states = []
 
@@ -210,17 +207,17 @@ func simulate_board() -> void:
 
 		for j in range(Global.COLS):
 
-			var vecinos = get_vecinos(i, j)
+			var neighbours = get_neighbours(i, j)
 			var current = Global.board[i][j].state
 			var next_state: int
 
 			if current != Global.States.CLEAR:
-				if vecinos == 2 or vecinos == 3:
+				if neighbours == 2 or neighbours == 3:
 					next_state = decide_weather_state_scaled(i, j)
 				else:
 					next_state = Global.States.CLEAR
 			else:
-				if vecinos == 3:
+				if neighbours == 3:
 					next_state = decide_weather_state_scaled(i, j)
 				else:
 					next_state = Global.States.CLEAR
@@ -270,7 +267,6 @@ func show_predictions_left() -> void:
 	
 		
 func next_day() -> void:
-	
 	Global.Day += 1
 
 	if Global.Day > Global.MaxDay: get_tree().quit()
@@ -280,7 +276,7 @@ func next_day() -> void:
 	check_predictions()
 	selected_prediction = null
 	predictions.clear()
-	update_predictions_left()
+	#update_predictions_left()
 	
 	print_board(Global.board)
 
@@ -290,16 +286,11 @@ func next_day() -> void:
 # ******************************************************************
 
 func print_board(matrix) -> void:
-
 	for i in range(Global.ROWS):
-
 		var row = ""
-
 		for j in range(Global.COLS):
 			row += str(matrix[i][j].state) + " "
-
 		print(row)
-
 	print("\n")
 
 
@@ -336,7 +327,7 @@ func _on_screen_mouse_click_input_event(viewport: Node, event: InputEvent, shape
 	
 			predictions.append(new_prediction)
 			selected_prediction = new_prediction
-			update_predictions_left()
+			#update_predictions_left()
 			var numero_prediccion = predictions.size()
 			print("Predicción #", numero_prediccion, " en celda ", new_prediction.position)
 
@@ -358,10 +349,10 @@ func _on_predictions_mouse_click_input_event(viewport: Node, event: InputEvent, 
 			predictions.erase(selected_prediction)
 			print("Predicción borrada")
 			selected_prediction = null
-			update_predictions_left()
+			#update_predictions_left()
 			return
 	
 		selected_prediction.state = prediction_state
 		print("Estado asignado:", prediction_state)
 		selected_prediction = null
-		update_predictions_left()
+		#update_predictions_left()
